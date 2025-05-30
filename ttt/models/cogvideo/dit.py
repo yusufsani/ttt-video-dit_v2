@@ -466,7 +466,8 @@ class DiffusionTransformer(nn.Module):
         # Image patch / text embeddings
         text_emb, vid_emb = self.patch_embedding(video, text)
 
-        num_chunks = text_emb.shape[1]
+        num_chunks = text_emb.shape[0]
+     
         seq_metadata = SequenceMetadata(
             text_length=text_length,
             seq_text_length=text_length * num_chunks,
@@ -482,7 +483,7 @@ class DiffusionTransformer(nn.Module):
         if seq_metadata.is_multiscene:
             seq_metadata.init_multiscene_offsets()
 
-        text_emb = rearrange(text_emb, "b c s e -> b (c s) e")
+        #text_emb = rearrange(text_emb, "b c s e -> b (c s) e")
 
         def checkpointed_group_forward(
             i: int, vid_emb: torch.Tensor, text_emb: torch.Tensor, seq_metadata: SequenceMetadata
