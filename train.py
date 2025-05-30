@@ -1,4 +1,5 @@
 import torch
+import torch.distributed as dist
 from einops import rearrange
 from torch.distributed.elastic.multiprocessing.errors import record
 
@@ -56,7 +57,7 @@ def main(job_config: JobConfig, logger: MultiLogger):
 
     # Each process gets a different seed for noise diversity
     set_random_seed(job_config.job.seed + effective_rank)
-
+   
     # Get model config
     model_config = ModelConfig.get_preset(job_config.model.size, job_config.model.video_length, job_config)
 
@@ -103,6 +104,7 @@ def main(job_config: JobConfig, logger: MultiLogger):
         timeout_minutes=job_config.checkpoint.timeout_minutes,
         desc=job_config.job.exp_name,
     )
+    #print("job_config.checkpoint.resume   ---------------- ", job_config.checkpoint.resume)
 
     # Choose training starting point
     is_resuming = False
@@ -124,6 +126,7 @@ def main(job_config: JobConfig, logger: MultiLogger):
 
     # Must get data iterator after resuming from checkpoint
     local_bs = job_config.training.global_batch_size // effective_world_size
+    
     dataloader = data_module.create_dataloader(local_bs, num_workers=2)
     data_iterator = iter(dataloader)
 
@@ -147,12 +150,17 @@ def main(job_config: JobConfig, logger: MultiLogger):
 
             vae_emb = get_micro_batch(batch["vae_emb"])
             text_emb = get_micro_batch(batch["txt_scene_embs"])
+            #print(f"vae_emb shape:      {vae_emb.shape}")
+            #print(f"text_emb shape:      {text_emb.shape}")
 
             loss_micro = model(vae_emb, text_emb).mean() / job_config.training.grad_accum_steps
 
             loss_micro.backward()
 
             loss += loss_micro
+            #del vae_emb, text_emb, loss_micro
+            #torch.cuda.empty_cache()
+            #gc_handler.run(step)
 
         # Gradient clipping
         grad_norm = torch.nn.utils.clip_grad_norm_(
@@ -201,6 +209,8 @@ def main(job_config: JobConfig, logger: MultiLogger):
 
 
 if __name__ == "__main__":
+    
+    
     display_logo()
 
     # Setup

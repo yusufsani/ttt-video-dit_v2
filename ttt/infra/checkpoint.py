@@ -62,7 +62,7 @@ class Checkpointer:
         self.logger.write(f"Loading in state from {path}.")
 
         model_state_dict, optim_state_dict = get_state_dict(self.model, self.optimizer)
-
+        
         state_dict = {
             MODEL_STATE_DICT_KEY: model_state_dict,
             OPTIMIZER_STATE_DICT_KEY: optim_state_dict,
@@ -102,7 +102,25 @@ class Checkpointer:
             DATAMODULE_STATE_DICT_KEY: self.data_module.sampler.state_dict(),
             METADATA_STATE_DICT_KEY: self.metadata.state_dict(),
         }
+        self.logger.write(f"Model state_dict formed.")
+        self.logger.write(f"saving starts.")
+       
 
+
+
+        #fs_storage_writer = dcp.FileSystemWriter(path)
+        #checkpoint_future = dcp.async_save(
+        #    state_dict=state_dict,
+        #    storage_writer=fs_storage_writer,)
+
+
+        #state_dict = {
+        #    MODEL_STATE_DICT_KEY: model_state_dict,
+        #    OPTIMIZER_STATE_DICT_KEY: optim_state_dict
+        #}
+        #CHECKPOINT_DIR = "checkpoint"
+        #print(state_dict)
+        #dcp.save(state_dict, checkpoint_id=CHECKPOINT_DIR)
         self._save(path, state_dict)
 
         self.logger.write("Completed saving state.")

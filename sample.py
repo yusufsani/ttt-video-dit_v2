@@ -69,7 +69,7 @@ class VideoGenerator:
         text_emb = TextEncoder.encode_text(
             self.tokenizer, self.t5_encoder, prompts, self.device, self.job_config.eval.txt_maxlen, self.dtype
         )
-
+        print("smaple: text_emb.  ",text_emb.shape)
         # Empty string is used to represent None in the prompt list for classifier free guidance.
         neg_prompts = [txt or "" for txt in neg_prompts]
         neg_emb = TextEncoder.encode_text(
@@ -86,6 +86,7 @@ class VideoGenerator:
             8,  # Factor for height and width scaling.
         )
 
+        print("T, C, H, W, F ",T, C, H, W, F )
         latents = self.sampler.sample(text_emb=text_emb, neg_emb=neg_emb, shape=(T, C, H // F, W // F), batch_size=1)
 
         # Decode latents to frames.

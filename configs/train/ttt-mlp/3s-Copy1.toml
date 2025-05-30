@@ -21,8 +21,8 @@ gradient_clipping_norm = 0.1
 [training]
 global_batch_size = 64
 grad_accum_steps = 1
-warmup_steps = 100
-steps = 5000
+warmup_steps = 10
+steps = 50
 #adapter_method = "sft"
 adapter_method = "qkvo"
 dataset_path = ""
@@ -39,9 +39,9 @@ dp_sharding = 2
 tp_sharding = 1
 
 [checkpoint]
-interval = 500 
-#init_state_dir ="/ttt-video-dit_v2/exp/05-09-ttt-video-3s-BS64-5000steps/checkpoint/step-500/"
-init_state_dir = "/home/user/ttt-video-dit/CogVideoX-2b-sat/CogVideoX-5b_converted/"
+interval = 10 
+init_state_dir ="/ttt-video-dit_v2/exp/05-23-ttt-video-3s-BS64-5000steps/checkpoint/step-30/"
+#init_state_dir = "/home/user/ttt-video-dit/CogVideoX-2b-sat/CogVideoX-5b_converted/"
 
 [wandb]
 project = "cogvideo_release"

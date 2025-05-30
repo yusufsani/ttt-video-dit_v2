@@ -6,7 +6,7 @@ name = "cogvideo"
 size = "5B"
 ssm_layer = "ttt_mlp"
 ttt_base_lr = 0.1
-mini_batch_size = 16
+mini_batch_size = 64
 video_length = "3sec"
 scale_factor = 1.0
 
@@ -19,9 +19,9 @@ image_height = 480
 latent_channels = 16
 scale_factor = 0.7
 num_denoising_steps = 50
-output_dir = "./output"
-t5_model_dir = TODO
-vae_checkpoint_path = TODO
+output_dir = "/home/user/ttt-video-dit_v2/output"
+t5_model_dir = "/home/user/ttt-video-dit_v1/CogVideoX-2b-sat/t5-v1_1-xxl/"
+vae_checkpoint_path = "/home/user/ttt-video-dit_v1/CogVideoX-2b-sat/vae/3d-vae.pt"
 
 [guider]
 scale = 6

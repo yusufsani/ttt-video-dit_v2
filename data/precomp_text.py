@@ -1,4 +1,5 @@
 import json
+import jsonlines 
 import os
 import numpy as np
 import torch
@@ -22,23 +23,29 @@ class TextDataset(Dataset):
     def __init__(self, json_file, token_mode=""):
         self.entries = []
         assert token_mode in ["start", "end", "both", ""]
-        with open(json_file, "r") as f:
-            data = json.load(f)
-        for d in data.values():
-            entry = dict()
-            if token_mode == "end":
-                if d['scene_end']: entry['text'] = d['text']+SCENE_END_TOKEN
-                else: continue
-            elif token_mode == "start":
-                if d['scene_start']: entry['text'] = SCENE_START_TOKEN+d['text']
-                else: continue
-            elif token_mode == "both":
-                if d['scene_start'] and d['scene_end']: entry['text'] = SCENE_START_TOKEN+d['text']+SCENE_END_TOKEN
-                else: continue
-            else:
-                entry['text'] = d['text']
-            entry['path'] = d['mp4']
-            self.entries.append(entry)
+        
+        #with open(json_file, "r") as f:
+        #    data = json.load(f)
+        #    print(data)
+        #for d in data.values():
+        with jsonlines.open(json_file) as reader:
+            #entry = dict()
+            for d in reader:
+                entry = dict()
+                #print(d['path'])
+                if token_mode == "end":
+                    if d['scene_end'][0]: entry['text'] = d['text']+SCENE_END_TOKEN
+                    else: continue
+                elif token_mode == "start":
+                    if d['scene_start'][0]: entry['text'] = SCENE_START_TOKEN+d['text_0']
+                    else: continue
+                elif token_mode == "both":
+                    if d['scene_start'][0] and d['scene_end'][0]: entry['text'] = SCENE_START_TOKEN+d['text_0']+SCENE_END_TOKEN
+                    else: continue
+                else:
+                    entry['text'] = d['text_0']
+                entry['path'] = d['path']
+                self.entries.append(entry)
 
     def __len__(self):
         return len(self.entries)
@@ -87,7 +94,7 @@ def process_jsonl(model, tokenizer, input_jsonl_file, output_path, max_length, t
     dataloader = DataLoader(
         dataset, batch_size=batch_size, shuffle=False, num_workers=4, collate_fn=collate_fn, drop_last=False
     )
-
+        
     for batch in tqdm(dataloader, desc="Processing batches"):
         batch_texts = [entry["text"] for entry in batch]
         batch_paths = [entry["path"] for entry in batch]
@@ -96,13 +103,17 @@ def process_jsonl(model, tokenizer, input_jsonl_file, output_path, max_length, t
 
         for i, (embedding, path) in enumerate(zip(embeddings, batch_paths)):
             video_folder = path.split(os.path.sep)[-2]
+          
             
-            if not "video_sample_" in os.path.basename(path):
-                sample_id = int(os.path.basename(path).split("video_sample")[1].split("_")[0])
+            if not "scene" in os.path.basename(path):
+                sample_id = int(os.path.basename(path).split("scene")[1].split("_")[0])
                 video_filename = f"video_sample_{sample_id:04d}_txt_emb.pt"
+               
             else:
                 video_filename = os.path.basename(path).replace(".mp4", "_txt_emb.pt")
+               
             emb_path = os.path.join(output_path, video_folder, video_filename)
+           
 
             os.makedirs(os.path.dirname(emb_path), exist_ok=True)
             torch.save(embedding, emb_path)
@@ -113,7 +124,7 @@ def parse_args():
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(description='Process text embeddings for video data')
     parser.add_argument('--video_length', type=int, default=3, help='Length of videos in seconds')
-    parser.add_argument('--max_length', type=int, default=493, help='Maximum sequence length')
+    parser.add_argument('--max_length', type=int, default=498, help='Maximum sequence length')
     parser.add_argument('--checkpoint_dir', type=str, required=True, help='Path to T5 checkpoint directory')
     parser.add_argument('--input_jsonl_file', type=str, required=True, help='Name of input JSONL file')
     parser.add_argument('--output_path', type=str, required=True, help='Base path for output embeddings')
@@ -123,7 +134,8 @@ def parse_args():
 def main():
     args = parse_args()
 
-    token_modes = ["", "both", "start", "end"]
+    #token_modes = ["", "both", "start", "end"]
+    token_modes = ["both"]
     print(f'Processing {args.input_jsonl_file}(video length {args.video_length}s) with max_length={args.max_length}')
 
     tokenizer = T5Tokenizer.from_pretrained(args.checkpoint_dir)
@@ -132,8 +144,8 @@ def main():
 
     for token_mode in token_modes:
         print(f'Processing token_mode={token_mode}')
-        output_path = os.path.join(args.output_path, f"tom-and-jerry-{args.video_length}s-{args.max_length}{'-'+token_mode}")
-        process_jsonl(model, tokenizer, args.input_jsonl_file, output_path, 
+        #output_path = os.path.join(args.output_path, f"tom-and-jerry-{args.video_length}s-{args.max_length}{'-'+token_mode}")
+        process_jsonl(model, tokenizer, args.input_jsonl_file, args.output_path, 
                     args.max_length, batch_size=args.batch_size, token_mode=token_mode)
 
 if __name__ == "__main__":

@@ -14,14 +14,14 @@ if [ ! -d ".git" ]; then
 	exit 1
 fi
 
-conda activate ttt-video
+#conda activate ttt-video
 
 export WANDB_API_KEY='OPTIONAL'
-NUM_GPUS=${NUM_GPUS:-8}
+NUM_GPUS=2
 
-CHECKPOINT_WEIGHTS_DIR="TODO"
-CONFIG_FILE="./configs/eval/ttt-mlp/9s.toml"
-INPUT_FILE="./inputs/example-9s.json"
+CHECKPOINT_WEIGHTS_DIR="./exp/05-24-ttt-video-3s-BS64-5000steps/checkpoint/step-50/"
+CONFIG_FILE="./configs/eval/ttt-mlp/3s.toml"
+INPUT_FILE="./inputs/my_ex-3s.json"
 
 torchrun --nproc_per_node="${NUM_GPUS}" \
 	--rdzv_backend c10d \

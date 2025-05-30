@@ -3,6 +3,12 @@ from tqdm import tqdm
 import os
 from os import path as osp
 import torch
+
+import imageio
+from PIL import Image
+import torchvision.transforms as transforms
+
+
 import torchvision.transforms as TT
 import torch.distributed as dist
 
@@ -56,7 +62,7 @@ def get_vae(
     Returns:
         Initialized VAE model
     """
-    
+   
     vae = VideoAutoencoderInferenceWrapper(
         vae_weight_path,
         VaeModelConfig.get_encoder_config(temporal_tiling_window=fps*tiling_window_unit),
@@ -68,6 +74,63 @@ def get_vae(
           f"dec tiling window = {vae.decoder_temporal_tiling_window})")
     
     return vae
+
+
+
+def resample_video_to_fps(video_path, target_fps=16, target_size=(640, 480), video_lenth=3):
+    # Load video
+    video_reader = imageio.get_reader(video_path, "ffmpeg")
+    meta = video_reader.get_meta_data()
+    original_fps = meta["fps"]
+    duration = meta["duration"]
+    total_frames = int(video_lenth * target_fps)
+    #target_num_frames = target_fps * video_length
+    print("total_frames====================.  ",total_frames)
+
+    # Load all frames
+    original_frames = [Image.fromarray(f) for f in video_reader]
+    n_original = len(original_frames)
+
+    # Resize and transform
+    resize = transforms.Resize(target_size)
+    to_tensor = transforms.ToTensor()
+
+    # Resample frames to target_fps
+    resampled_frames = []
+    for i in range(total_frames):
+        # Map each target frame index to original frame index
+        orig_index = int(i * (n_original / total_frames))
+        orig_index = min(orig_index, n_original - 1)  # Clamp
+        img = resize(original_frames[orig_index])
+        tensor = to_tensor(img)
+        resampled_frames.append(tensor)
+    
+
+    return resampled_frames  # List of [C, H, W] tensors
+
+
+def load_and_process_video(video_path, target_fps=30, target_size=(640, 480)):
+    video_reader = imageio.get_reader(video_path, "ffmpeg")
+    original_fps = video_reader.get_meta_data()["fps"]
+
+    # Optional: adjust frame sampling rate if FPS is different
+    frame_step = int(round(original_fps / target_fps)) if target_fps < original_fps else 1
+
+    resize = transforms.Resize(target_size)
+    to_tensor = transforms.ToTensor()
+
+    frames = []
+    for i, frame in enumerate(video_reader):
+        if i % frame_step != 0:
+            continue
+        img = Image.fromarray(frame)
+        img_resized = resize(img)
+        tensor = to_tensor(img_resized)
+        frames.append(tensor)
+
+    return frames  # List of tensors
+
+
 
 def precompute_episode(
     videos_dir: str,
@@ -100,6 +163,7 @@ def precompute_episode(
 
     for i, video in tqdm(enumerate(videos), total=len(videos)):
         video_path = osp.join(videos_dir, video)
+        print(video_path)
         save_path = osp.join(save_dir, video.replace(".mp4", ".pt"))
         
         # Skip if already processed
@@ -115,13 +179,20 @@ def precompute_episode(
                 print(f"Redoing {video} due to error: {e}")
         
         # Process video
-        video_reader = imageio.get_reader(video_path, "ffmpeg")
-        video_fps = video_reader.get_meta_data()["fps"]
-        assert video_fps == fps, f"Video FPS ({video_fps}) does not match expected FPS ({fps})"
-
-        frames = [TT.ToTensor()(frame) for frame in video_reader]
-        video_reader.close()
+        #video_reader = imageio.get_reader(video_path, "ffmpeg")
+        
+        if "ipynb_checkpoints" in video_path:
+            continue
+        #video_fps = video_reader.get_meta_data()["fps"]
+        frames = resample_video_to_fps(video_path, target_fps=16, target_size=(480, 720))
+        print("frames======================. ", len(frames))
+        #assert video_fps == fps, f"Video FPS ({video_fps}) does not match expected FPS ({fps})"
+        
+        
+    
         assert len(frames) == target_num_frames, f"Wrong number of frames: {len(frames)} != {target_num_frames}"
+        
+        
         
         # Add to batch
         batch.append(torch.stack(frames).to(device).permute(1, 0, 2, 3).unsqueeze(0).to(dtype).contiguous())
@@ -136,15 +207,28 @@ def precompute_episode(
         # Process batch
         x = torch.cat(batch, dim=0).contiguous()
         x = x * 2.0 - 1.0
+       
         
         assert x.shape[1:] == (3, target_num_frames, 480, 720) and x.shape[0] <= batch_size
         with torch.no_grad():
             encoded_frames = vae.encode_first_stage(x, unregularized=True, multiply_by_scale_factor=False)
+        
+        
+        print("encoded_frames shape.  ========",encoded_frames.shape)
+        import torch.nn.functional as F
             
+        encoded_frames = F.interpolate(encoded_frames, size=(13, 60, 90), mode='trilinear', align_corners=False)  # interpolate time dim from 12 -> 13
+        print("encoded_frames shape. after========= ",encoded_frames.shape)
         # Save encoded frames
         for ef, save_path in zip(encoded_frames, batch_save_paths):
+
+            
             out = ef.permute((1,0,2,3)).contiguous()
-            assert out.shape == (target_num_frames//4+1, 32, 60, 90)
+            #xprint("out shape---------   ",out.shape)
+            #print("asser shape.  ",target_num_frames//4, 32, 60, 90)
+            assert out.shape == (target_num_frames//4+1,  32, 60, 90)
+            
+            #assert out.shape == (target_num_frames//4+1, 32, 60, 90)
             torch.save(out, save_path)
             
         batch = []
@@ -162,7 +246,7 @@ def main():
     config.parser.add_argument(
         "--precomp.video_length",
         type=int,
-        default=18,
+        default=3,
         help="Length of videos in seconds"
     )
     config.parser.add_argument(
@@ -174,7 +258,7 @@ def main():
     config.parser.add_argument(
         "--precomp.vae_tiling_window_unit",
         type=int,
-        default=1,
+        default=3,
         help="VAE temporal tiling window unit"
     )
     config.parser.add_argument(
@@ -198,21 +282,24 @@ def main():
     config.parse_args()
     init_distributed(config)
 
+    config.config_map['precomp']
     # Get configuration
-    episode_dir = config.precomp.episode_dir
-    FPS = config.precomp.fps
-    video_length = config.precomp.video_length
-    tiling_window_unit = config.precomp.vae_tiling_window_unit
-    batch_size = config.precomp.batch_size
-    vae_weight_path = config.precomp.vae_weight_path
-    output_dir = config.precomp.output_dir
+    episode_dir = config.config_map['precomp']['episode_dir']
+    FPS = config.config_map['precomp']['fps']
+    video_length = config.config_map['precomp']['video_length']
+    tiling_window_unit = config.config_map['precomp']['vae_tiling_window_unit']
+    batch_size = config.config_map['precomp']['batch_size']
+    vae_weight_path = config.config_map['precomp']['vae_weight_path']
+    output_dir = config.config_map['precomp']['output_dir']
 
-    TARGET_NUM_FRAMES = FPS * video_length + 1
+    #TARGET_NUM_FRAMES = FPS * video_length + 1
+    TARGET_NUM_FRAMES = FPS * video_length
     print(f'Precomputing {video_length}s video embeddings\n\tfrom: {episode_dir}\n\tto: {output_dir}.')
     print(f'.mp4 files should have {TARGET_NUM_FRAMES} frames.')
 
     # Initialize VAE
     local_rank = int(os.environ.get("LOCAL_RANK", 0))
+   
     vae = get_vae(
         vae_weight_path=vae_weight_path,
         fps=FPS,
@@ -220,9 +307,11 @@ def main():
         device=f"cuda:{local_rank}"
     )
     assert vae.encoder_temporal_tiling_window == FPS*tiling_window_unit
-
+    #print("vae loaded-------------------")
     # Process episodes
-    episodes = sorted([d for d in os.listdir(episode_dir) if osp.isdir(osp.join(episode_dir, d))])
+    episodes = sorted([d for d in os.listdir(episode_dir) if osp.isdir(osp.join(episode_dir, d)) and not episode_dir=='.ipynb_checkpoints'])
+    #print("episodes loaded-------------------",episodes)
+    
     rank = dist.get_rank()
     world_size = dist.get_world_size()
     episodes_for_this_rank = episodes[rank::world_size]

@@ -172,7 +172,7 @@ class TrainingIterator:
 
         self.logger.write(completion_message)
         self.logger.close()
-        del self.logger
+        #del self.logger
 
     def __del__(self):
         if self.logger:

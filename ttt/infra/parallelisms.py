@@ -24,11 +24,28 @@ SKIP_CLEANUP = "3"
 type TPPlan = dict[str, ParallelStyle]
 
 
+
+def setup():
+    #os.environ["MASTER_ADDR"] = "localhost"
+    #os.environ["MASTER_PORT"] = "12355 "
+    import os
+    world_size = int(os.environ['WORLD_SIZE'])
+    rank = int(os.environ['RANK'])
+    local_rank = int(os.environ['LOCAL_RANK'])
+
+    # initialize the process group
+    dist.init_process_group("nccl", rank=rank, world_size=world_size)
+    torch.cuda.set_device(rank)
+
+
+
 def init_distributed(job_config):
+    world_size = int(os.environ['WORLD_SIZE'])
+    rank = int(os.environ['RANK'])
     device = f"cuda:{int(os.environ['LOCAL_RANK'])}"
     torch.cuda.set_device(device)
 
-    torch.distributed.init_process_group("nccl", timeout=timedelta(seconds=job_config.comm.init_timeout_seconds))
+    torch.distributed.init_process_group("cpu:gloo,cuda:nccl", rank=rank, world_size=world_size,timeout=timedelta(seconds=job_config.comm.init_timeout_seconds))
 
     # to mitigate the memory issue that collectives using
     # async_op=True hold memory longer than they should
@@ -61,12 +78,15 @@ def get_world_mesh(job_config):
     dp_sharding = job_config.parallelism.dp_sharding
     dp_replicate = job_config.parallelism.dp_replicate
     global_bs = job_config.training.global_batch_size
+    
+    print(f"world size: {world_size}, tp_sharding: {tp_sharding}, dp_sharding: {dp_sharding}, dp_replicate: {dp_replicate}")
+    print(f"global batch size: {global_bs}")
 
     assert (
         tp_sharding * dp_sharding * dp_replicate == world_size
     ), "world size must be equal to the product of tp_sharding, dp_sharding, and dp_replicate"
 
-    assert dp_sharding <= global_bs, "dp_sharding must be greater than or equal to the global batch size"
+    assert dp_sharding >= global_bs, "dp_sharding must be greater than or equal to the global batch size"
 
     assert dp_replicate > 0, "dp_replicate must be greater than 0. Set to 1 to avoid data parallel on the transformer"
     assert (

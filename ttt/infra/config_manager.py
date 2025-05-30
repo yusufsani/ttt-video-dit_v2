@@ -54,7 +54,7 @@ class TrainingConfig:
     )
     dataset_path: Optional[str] = field(default=None, metadata={"help": "Path to the dataset in the file system."})
     jsonl_paths: Optional[str] = field(default=None, metadata={"help": "Jsonl path for preembedding dataset."})
-    global_batch_size: int = field(default=8, metadata={"help": "Global batch size."})
+    global_batch_size: int = field(default=1, metadata={"help": "Global batch size."})
     grad_accum_steps: int = field(default=1, metadata={"help": "Grad accumulatation steps."})
     warmup_steps: int = field(default=50, metadata={"help": "The number of steps for lr scheduler warmup."})
     steps: int = field(default=5000, metadata={"help": "How many train steps to run"})
@@ -137,7 +137,7 @@ class CheckpointConfig:
 
     init_state_dir: Optional[str] = field(default=None, metadata={"help": "Path to the model weights."})
     interval: int = field(default=0, metadata={"help": "Interval at which to save checkpoints."})
-    resume: bool = field(default=False, metadata={"help": "Resume experiment.", "action": "store_true"})
+    resume: bool = field(default=True, metadata={"help": "Resume experiment.", "action": "store_true"})
     resume_step: int = field(
         default=-1, metadata={"help": "At which step to resume from checkpoint. Use -1 for auto-detect latest."}
     )

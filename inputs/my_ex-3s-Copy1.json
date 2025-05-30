@@ -1,0 +1,16 @@
+[
+ [
+   {
+     "text": "Jerry the brown mouse is standing on a wooden table in a kitchen. He's wearing a tiny chef's hat and holding a wooden spoon. Tom the blue-gray cat is crouched below the table, his tail twitching as he prepares to pounce. A wedge of yellow cheese sits on a plate near Jerry, who is gesturing proudly at his creation - a miniature cake made from cheese scraps.",
+     "requires_scene_transition": false,
+     "neg_text": "blurry image, deformed limbs, incorrect colors, floating objects, disproportionate features, unrealistic lighting"
+   },
+   {
+     "text": "The kitchen counter is cluttered with cooking utensils. Jerry is running across it, still wearing his chef's hat but now clutching the cheese wedge to his chest. Tom has leapt onto the counter, knocking over a salt shaker and flour canister in pursuit. Jerry slides under a mixing bowl while Tom skids on some spilled flour, his eyes wide with surprise as he loses his balance.",
+     "requires_scene_transition": true,
+     "neg_text": "poor composition, missing details, distorted perspective, unnatural poses, incorrect shadows, blurry textures"
+   }
+ ]
+ 
+ 
+]
