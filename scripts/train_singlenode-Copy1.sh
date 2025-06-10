@@ -10,15 +10,15 @@ export TRITON_CACHE_DIR='/tmp/triton_cache'
 export OMP_NUM_THREADS=1
 
 # Add this if using WandB
-export WANDB_API_KEY='TODO'
+export WANDB_API_KEY='6087caaab6a2ecb90e54e11b142b0432e0d22f3a'
 
 #conda activate ttt-video
 
 NUM_GPUS=4
 
 # For 9 seconds and onward, you should use a checkpoint and uncomment the override flag below
-CHECKPOINT_WEIGHTS_DIR="/home/user/ttt-video-dit_v2/exp/05-23-ttt-video-3s-BS64-5000steps/checkpoint/step-30/"
-#CHECKPOINT_WEIGHTS_DIR="/home/user/ttt-video-dit/CogVideoX-2b-sat/CogVideoX-5b_converted/"
+CHECKPOINT_WEIGHTS_DIR="/home/user/ttt-video-dit_v2/exp/06-01-ttt-video-3s-BS64-5000steps/checkpoint/step-400/"
+#CHECKPOINT_WEIGHTS_DIR="/home/user/ttt-video-dit_v1/CogVideoX-2b-sat/CogVideoX-5b_converted/"
 CONFIG_FILE="./configs/train/ttt-mlp/3s-Copy1.toml"
 
 EXP_NAME="${DATE}-ttt-video-3s-BS64-5000steps"

@@ -4,3 +4,4 @@ exp/
 __pycache__/
 *.py[cod]
 *$py.class
+.mp4
