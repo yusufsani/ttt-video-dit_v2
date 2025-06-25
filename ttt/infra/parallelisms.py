@@ -39,10 +39,12 @@ def setup():
 
 
 
-def init_distributed(job_config):
-    world_size = int(os.environ['WORLD_SIZE'])
-    rank = int(os.environ['RANK'])
-    device = f"cuda:{int(os.environ['LOCAL_RANK'])}"
+def init_distributed_ori(job_config):
+    #os.environ["MASTER_ADDR"] = "localhost"
+    #os.environ["MASTER_PORT"] = "12355"
+    world_size = int(os.environ.get('WORLD_SIZE', 1))
+    rank = int(os.environ.get('RANK',1))
+    device = f"cuda:{int(os.environ.get('LOCAL_RANK',0))}"
     torch.cuda.set_device(device)
 
     torch.distributed.init_process_group("cpu:gloo,cuda:nccl", rank=rank, world_size=world_size,timeout=timedelta(seconds=job_config.comm.init_timeout_seconds))
@@ -52,6 +54,38 @@ def init_distributed(job_config):
     # such as those in tensor parallelism
     os.environ["TORCH_NCCL_AVOID_RECORD_STREAMS"] = "1"
 
+
+def init_distributed(job_config):
+    backend= "nccl" if torch.cuda.is_available() else "gloo"
+    """Initializes the distributed environment."""
+    if not dist.is_available():
+        print("Distributed training is not available.")
+        return
+
+    if not dist.is_initialized():
+        # These environment variables are typically set by the launch utility
+        # (e.g., torchrun, Slurm)
+        rank = int(os.environ.get("RANK", "0"))
+        world_size = int(os.environ.get("WORLD_SIZE", "1"))
+        master_addr = os.environ.get("MASTER_ADDR", "localhost")
+        master_port = os.environ.get("MASTER_PORT", "2786") # Default port
+
+        print(f"Initializing process group: Rank {rank}/{world_size}")
+        dist.init_process_group(
+            backend=backend,
+            init_method=f'tcp://{master_addr}:{master_port}',
+            rank=rank,
+            world_size=world_size,
+            timeout=timedelta(seconds=job_config.comm.init_timeout_seconds)
+        )
+        print(f"Process group initialized ({backend}).")
+
+    # Set the device for the current process. This is important!
+    # Assumes one process per GPU.
+    if backend == 'nccl' and torch.cuda.is_available():
+        local_rank = int(os.environ.get("LOCAL_RANK", "0"))
+        torch.cuda.set_device(local_rank)
+        print(f"Rank {dist.get_rank()} using GPU {local_rank}")
 
 def end_distributed():
     # Sync up before exiting

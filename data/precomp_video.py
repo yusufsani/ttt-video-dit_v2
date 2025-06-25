@@ -77,7 +77,7 @@ def get_vae(
 
 
 
-def resample_video_to_fps(video_path, target_fps=16, target_size=(640, 480), video_lenth=3):
+def resample_video_to_fps(video_path, target_fps=16, target_size=(640, 480), video_lenth=9):
     # Load video
     video_reader = imageio.get_reader(video_path, "ffmpeg")
     meta = video_reader.get_meta_data()
@@ -186,6 +186,7 @@ def precompute_episode(
         #video_fps = video_reader.get_meta_data()["fps"]
         frames = resample_video_to_fps(video_path, target_fps=16, target_size=(480, 720))
         print("frames======================. ", len(frames))
+        #break
         #assert video_fps == fps, f"Video FPS ({video_fps}) does not match expected FPS ({fps})"
         
         
@@ -217,7 +218,7 @@ def precompute_episode(
         print("encoded_frames shape.  ========",encoded_frames.shape)
         import torch.nn.functional as F
             
-        encoded_frames = F.interpolate(encoded_frames, size=(13, 60, 90), mode='trilinear', align_corners=False)  # interpolate time dim from 12 -> 13
+        #encoded_frames = F.interpolate(encoded_frames, size=(13, 60, 90), mode='trilinear', align_corners=False)  # interpolate time dim from 12 -> 13
         print("encoded_frames shape. after========= ",encoded_frames.shape)
         # Save encoded frames
         for ef, save_path in zip(encoded_frames, batch_save_paths):
@@ -279,8 +280,11 @@ def main():
         required=True,
         help="Directory to save encodings"
     )
+    print("config.parser",config.parser)
     config.parse_args()
+    print("config.config_map",config)
     init_distributed(config)
+    
 
     config.config_map['precomp']
     # Get configuration
