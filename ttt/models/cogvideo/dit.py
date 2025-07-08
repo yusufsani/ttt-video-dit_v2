@@ -466,7 +466,8 @@ class DiffusionTransformer(nn.Module):
         # Image patch / text embeddings
         text_emb, vid_emb = self.patch_embedding(video, text)
 
-        num_chunks = text_emb.shape[0]
+        ## error initially used shape[0] instead of shape[1]
+        num_chunks = text_emb.shape[1]
      
         seq_metadata = SequenceMetadata(
             text_length=text_length,
@@ -490,6 +491,7 @@ class DiffusionTransformer(nn.Module):
         ):
             for layer in self.layers[i : i + self.remat_transformer_layer_group_size]:
                 vid_emb, text_emb = layer(full_tensor(vid_emb), full_tensor(text_emb), seq_metadata)
+                
             return vid_emb, text_emb
 
         for i in range(0, len(self.layers), self.remat_transformer_layer_group_size):
@@ -497,6 +499,8 @@ class DiffusionTransformer(nn.Module):
                 assert self.tp_mesh is not None, "Sharding requires tensor parallel mesh to be set"
                 vid_emb = shard_tensor(vid_emb, self.tp_mesh, dim=1)
                 text_emb = shard_tensor(text_emb, self.tp_mesh, dim=1)
+
+               
 
             vid_emb, text_emb = torch.utils.checkpoint.checkpoint(
                 checkpointed_group_forward, i, vid_emb, text_emb, seq_metadata, use_reentrant=False

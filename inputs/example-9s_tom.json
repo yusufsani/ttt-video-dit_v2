@@ -1,0 +1,53 @@
+[
+ [
+   {
+     "text": "In a room with yellow walls, white baseboard trim, and a dark wooden floor, the shadow of a potted plant is shown against the wall. Tom, the blue-gray cat, holds Jerry, the brown mouse, by the tail with his right hand in the foreground. Jerry, the brown mouse, moves his legs rapidly towards the right side of the frame, but is held stationary by Tom, the blue-gray cat. Tom rests his chin on his left hand, watching Jerry run with casual interest. He uses his right hand to slide Jerry backwards, and lowers his head directly in front of Jerry, who continues to runs with eyes closed.",
+     "requires_scene_transition": true,
+     "neg_text": "blurry image, deformed limbs, incorrect colors, floating objects, disproportionate features, unrealistic lighting"
+   },
+   {
+     "text": "A wide wide brown floor stretches across the screen, set against a plain gray wall with no furniture. Jerry, the brown mouse, stands in the center, his eyes shut and face twisted in strain. Behind, him, Tom, the blue-gray cat, holds Jerry's tail with one paw. The brown mouse, Jerry, struggles to run forward but cannot move because, Tom, The blue-gray cat, holds his tail tightly. Suddenly, Tom lets go, causing Jerry to stumble into his open mouth with a shocked expression. The brown mouse, Jerry, turns around and runs away in the opposite direction, leaving a small trail of dust.",
+     "requires_scene_transition": true,
+     "neg_text": "poor composition, missing details, distorted perspective, unnatural poses, incorrect shadows, blurry textures"
+   },
+   {
+     "text": "The floor is red, extending to a white wall siding with a yellow wall above. The blue-gray cat, Tom is lying face down, his head and shoulders off screen. The brown mouse, Jerry, with a look of concentration and his eyes closed, runs to the left, the camera panning and following Jerry, revealing a mouse hole with a dark interior in the white siding. Before Jerry can reach the hole, Tom's tail enters the scene from the right, wrapping around Jerry and lifting him into the air. The camera then pans to the right, revealing the blue-gray cat, Tom, who is on all fours, a smile on his face, holding his head in his left hand, looking back at Jerry, who has a scared look, then Tom throws Jerry up and off screen..",
+     "requires_scene_transition": false,
+     "neg_text": "blurry image, deformed limbs, incorrect colors, floating objects, disproportionate features, unrealistic lighting"
+   }
+ ],
+ [
+   {
+     "text": "A low-angle shot reveals a dark kitchen with a countertop on the left and a white single-door fridge along the back wall. The fridge door is ajar and the light from inside spills onto the red kitchen floor near a wooden stool. The scene brightens and the camera zooms in towards the fridge. The analog clock on the wall above the fridge shows the time to be midnight.",
+     "requires_scene_transition": false,
+     "neg_text": "blurry image, deformed limbs, incorrect colors, floating objects, disproportionate features, unrealistic lighting"
+   },
+   {
+     "text": "A wide brown floor extends under a light blue wall on the left, and a white wall straight ahead in a room. Under the blue wall is a pathway with a curved top on the left side, having a yellow container and a black object at the entrance, and a storage shelf on the right. On top of the left wall is a storage space. The front wall has a door ajar with a chair to its left and a shelf to its right. The camera zooms in and stops..",
+     "requires_scene_transition": false,
+     "neg_text": "incorrect physics, blurry motion, distorted perspective, anatomical errors, missing details, unrealistic shadows"
+   },
+   {
+     "text": "A white brick wall with a white clock on it stretches across the back of the scene, and a white stove and a brown wooden stool beside an open white refrigerator with yellow light shining out of it are standing in front of the wall. A white cupboard stands to the right of the refrigerator and a light blue counter with a brown top stretches from the foreground to the background on the left side, with white plates on top. The camera zooms in on the refrigerator.",
+     "requires_scene_transition": false,
+     "neg_text": "excessive darkness, poor contrast, missing details, incorrect lighting, anatomical errors, unnatural shadows"
+   }
+ ],
+ [
+   {
+     "text": "A cream-colored wall with a white baseboard that has a black electrical outlet stretches behind a dark brown floor. A black electrical cord is plugged into the outlet. The camera pans to the right to reveal a black mousehole in the white baseboard of the wall. A white sign with a brown frame and a flower border with blue words in the center, leans on the wall ;in front of the mousehole. Jerry, the brown mouse, races into the scene from the left side with a cloud of gray dust behind him, skids to a halt, then races back toward the mousehole.",
+     "requires_scene_transition": false,
+     "neg_text": "unrealistic water, grainy sand texture, anatomical errors, incorrect perspective, blurry details, unnatural colors"
+   },
+   {
+     "text": "A red floor stretches across the bottom half of the screen. A white skirting board is on the right and a mouse hole with a ‘Home Sweet Home’ above it. Jerry, the brown mouse is splattered against the hole with his arms stretched out. He falls back, face planted on the carpet leaving a ring of dust before running back to the hole leaving more dust behind him. He runs to the hole and hits the wall again and face plants against it again.",
+     "requires_scene_transition": true,
+     "neg_text": "unrealistic water physics, distorted expressions, anatomical errors, incorrect scale, blurry motion, perspective problems"
+   },
+   {
+     "text": "There is a dark-red floor that stretches across the screen, with the left side of it covered in shadow, as it goes behind the bright yellow wall with white floor trimming situated at the center. There is a brown desk to the right of the screen with ink and a pen on top of it. Tom, the blue-gray cat, seems to be listening intently to something behind the wall, with one ear raised up and body slunk against the wall. Suddenly, his face turns into pure joy, his open smile getting wider, before he crouches down in a snicker and slowly begins the motion of crawling towards the left of the screen, crouched low against the floor.",
+     "requires_scene_transition": true,
+     "neg_text": "inaccurate lighting, anatomical errors, unrealistic water effects, blurry textures, disproportionate elements, incorrect shadows"
+   }
+ ]
+]

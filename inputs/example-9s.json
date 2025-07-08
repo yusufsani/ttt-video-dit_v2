@@ -2,7 +2,7 @@
  [
    {
      "text": "Jerry the brown mouse is standing on a wooden table in a kitchen. He's wearing a tiny chef's hat and holding a wooden spoon. Tom the blue-gray cat is crouched below the table, his tail twitching as he prepares to pounce. A wedge of yellow cheese sits on a plate near Jerry, who is gesturing proudly at his creation - a miniature cake made from cheese scraps.",
-     "requires_scene_transition": false,
+     "requires_scene_transition": true,
      "neg_text": "blurry image, deformed limbs, incorrect colors, floating objects, disproportionate features, unrealistic lighting"
    },
    {
@@ -12,14 +12,14 @@
    },
    {
      "text": "Tom is sprawled on the kitchen floor, covered in white flour and surrounded by fallen kitchenware. Jerry sits safely atop the refrigerator, contentedly nibbling on his cheese wedge. A human's legs and slippered feet appear in the doorway, and Tom quickly attempts to gather the scattered cooking items. Jerry watches with amusement as Tom frantically tries to clean up the mess before slowly fading to black.",
-     "requires_scene_transition": true,
+     "requires_scene_transition": false,
      "neg_text": "inconsistent style, warped proportions, incorrect anatomy, floating objects, blurry details, poor lighting"
    }
  ],
  [
    {
      "text": "Tom the blue-gray cat is lounging in a comfortable armchair in a cozy living room, reading a newspaper. His eyes are half-closed in relaxation, and he's wearing a pair of small reading glasses perched on his nose. A fire crackles in the stone fireplace nearby. Unnoticed by Tom, Jerry the brown mouse is tiptoeing across the mantelpiece, eyeing a plate of cookies on the side table next to Tom's chair.",
-     "requires_scene_transition": false,
+     "requires_scene_transition": true,
      "neg_text": "fuzzy outlines, anatomical errors, distorted furniture, unnatural lighting, unrealistic textures, disproportionate objects"
    },
    {
@@ -29,7 +29,7 @@
    },
    {
      "text": "The living room is now dark except for the glow from the dying embers in the fireplace. Tom is asleep back in his armchair, snoring softly with his reading glasses askew. Jerry has made a small bed for himself using Tom's crumpled newspaper, and is contentedly sleeping on it beneath the armchair. Half of the cookie rests beside him, saved for tomorrow. A clock on the wall shows it's late night as the scene slowly fades to black.",
-     "requires_scene_transition": true,
+     "requires_scene_transition": false,
      "neg_text": "excessive darkness, poor contrast, missing details, incorrect lighting, anatomical errors, unnatural shadows"
    }
  ],

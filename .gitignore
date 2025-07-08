@@ -1,7 +1,9 @@
-nohup.out
+nohup*
 exp/
 .ipynb_checkpoints/
 __pycache__/
 *.py[cod]
 *$py.class
-.mp4
+*.mp4
+output
+

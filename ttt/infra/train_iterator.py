@@ -54,8 +54,10 @@ class TrainingIterator:
         Args:
             step: Step to resume from. If -1, will auto-detect latest checkpoint.
         """
+        
         if step == -1:
             step = self.logger.get_latest_checkpoint_step()
+            
             if step is None:
                 self.logger.write("No checkpoints found, starting from beginning.")
                 return 0

@@ -1,4 +1,5 @@
 import json
+from operator import index
 import os.path as osp
 
 import decord
@@ -26,10 +27,12 @@ class PreembeddingDataset(Dataset):
         for jsonl_path in jsonl_paths:
             with open(jsonl_path, "r") as f:
                 for line in f:
+                    
                     metadata = json.loads(line)
+                    
                     self.metadata_list.append(metadata)
 
-        print(f"Loaded {len(self.metadata_list)} videos")
+        #print(f"Loaded {len(self.metadata_list)} videos")
         decord.bridge.set_bridge("torch")
 
     def __getitem__(self, index):
@@ -37,17 +40,24 @@ class PreembeddingDataset(Dataset):
             try:
                 return self.get_data_by_index(index)
             except (TimeoutError, RuntimeError, Exception) as e:
-                print(f"Error loading video {index}, retrying")
+                print(f"Error loading video {index},  retrying ({i+1}/10)")
                 print(e)
+        # If all retries fail, raise an error
+        raise RuntimeError(f"Failed to load video {index} after 10 retries.")
 
     def abs_path(self, path: str):
         return path if osp.isabs(path) else osp.join(self.dataset_path, path)
 
     def get_data_by_index(self, index):
         metadata = self.metadata_list[index]
+        #print(f"Loading video *************** {index} with metadata: {metadata}")
 
         video_emb_path = self.abs_path(metadata["vid_emb"])
+        #print(f"Loading video embedding from __________.  {video_emb_path}")
         video_emb = torch.load(video_emb_path, map_location="cpu")
+       
+        #for text_emb_path in metadata["text_chunk_emb"]:
+        #    print(f"Loading text chunk embedding from {text_emb_path}")
 
         # Sample latent
         posterior = DiagonalGaussianDistribution(video_emb)

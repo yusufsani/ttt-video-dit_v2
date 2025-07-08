@@ -217,8 +217,10 @@ def precompute_episode(
         
         print("encoded_frames shape.  ========",encoded_frames.shape)
         import torch.nn.functional as F
-            
-        #encoded_frames = F.interpolate(encoded_frames, size=(13, 60, 90), mode='trilinear', align_corners=False)  # interpolate time dim from 12 -> 13
+
+        # encoded_frames for 13 frames for 3s clips 
+        # encoded_frames for 37 frames for 9s clips
+        encoded_frames = F.interpolate(encoded_frames, size=(37, 60, 90), mode='trilinear', align_corners=False)  # interpolate time dim from 36 -> 37
         print("encoded_frames shape. after========= ",encoded_frames.shape)
         # Save encoded frames
         for ef, save_path in zip(encoded_frames, batch_save_paths):

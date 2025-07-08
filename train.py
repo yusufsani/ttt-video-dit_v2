@@ -60,7 +60,7 @@ def main(job_config: JobConfig, logger: MultiLogger):
    
     # Get model config
     model_config = ModelConfig.get_preset(job_config.model.size, job_config.model.video_length, job_config)
-
+   
     # Initialize skeleton of model for FSDP
     # Will allocate and init weights later
     with torch.device("meta"):
@@ -105,11 +105,15 @@ def main(job_config: JobConfig, logger: MultiLogger):
         desc=job_config.job.exp_name,
     )
     #print("job_config.checkpoint.resume   ---------------- ", job_config.checkpoint.resume)
+    
 
     # Choose training starting point
     is_resuming = False
     if job_config.checkpoint.resume:
         step = train_iter.resume(job_config.checkpoint.resume_step)
+        
+        
+        
         if step > 0:
             is_resuming = True
             device_seed = job_config.job.seed + effective_rank + step
@@ -138,7 +142,7 @@ def main(job_config: JobConfig, logger: MultiLogger):
         (batch, data_iterator, dataloader_time) = get_batch(
             data_iterator, dataloader, job_config.training.global_batch_size, logger
         )
-
+        #print(batch, data_iterator, dataloader_time)
         loss = torch.tensor(0.0, device="cuda")
 
         # Gradient accumulation
@@ -215,9 +219,11 @@ if __name__ == "__main__":
 
     # Setup
     config = JobConfig()
+    
     config.parse_args()
     init_distributed(config)
     logger = get_logger(config)
+    print(config)
 
     # Run training
     main(config, logger)
