@@ -1,5 +1,5 @@
 [job]
-exp_name = "cogvideo-mlp-18s"
+exp_name = "cogvideo-mlp-18s_1700"
 
 [model]
 name = "cogvideo"
@@ -18,10 +18,10 @@ image_width = 720
 image_height = 480
 latent_channels = 16
 scale_factor = 0.7
-num_denoising_steps = 50
-output_dir = "./output"
-t5_model_dir = TODO
-vae_checkpoint_path = TODO
+num_denoising_steps = 30
+output_dir = "/home/user/ttt-video-dit_v2/output"
+t5_model_dir = "/home/user/ttt-video-dit_v1/CogVideoX-2b-sat/t5-v1_1-xxl/"
+vae_checkpoint_path = "/home/user/ttt-video-dit_v1/CogVideoX-2b-sat/vae/3d-vae.pt"
 
 [guider]
 scale = 6

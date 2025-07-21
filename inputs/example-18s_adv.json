@@ -1,0 +1,68 @@
+[
+ [
+   {
+     "text": "A young girl with curly hair, dressed in a pink shirt and denim overalls, stands at the counter of a store, her expression earnest as she interacts with an older male shopkeeper wearing glasses and a plaid shirt. The background shelves are stocked with various products, primarily Cadbury Dairy Milk chocolate bars and packages, establishing the setting as a small, cozy neighborhood shop. She gestures toward the shopkeeper, who regards her with mild curiosity and a hint of amusement. After a moment of deliberation, the shopkeeper picks up a large Cadbury Dairy Milk chocolate bar and holds it out, presenting it for her approval. The video is warmly lit with a soft, cinematic glow, highlighting the gentle, intimate atmosphere between the characters. The focus is on the subtle emotional cue of innocent desire and mutual understanding, with the brand prominently featured throughout the scene.",
+     "requires_scene_transition": true,
+     "neg_text": "blurry image, deformed limbs, incorrect colors, floating objects, disproportionate features, unrealistic lighting"
+   },
+   {
+     "text": "A warm, soft-focus video captures a child’s hand arranging small, colorful plastic toys and beads, including a miniature unicorn and pink butterfly, on a wooden tabletop in a gentle, sunlit environment. As the camera shifts to showcase the assembled collection of trinkets, a pair of adult hands slides a large, purple-wrapped Cadbury Dairy Milk chocolate bar across the table. The film’s color palette is muted and cozy, evoking comfort and nostalgia, while maintaining a childlike sense of wonder. The focus alternates between the objects and the hands to emphasize connection and sharing across generations. Brand logos appear subtly but frequently, reinforcing the chocolate’s presence as both a treat and a token of affection. The video’s pacing is unrushed and intimate, spotlighting small moments of discovery and giving.",
+     "requires_scene_transition": true,
+     "neg_text": "poor composition, missing details, distorted perspective, unnatural poses, incorrect shadows, blurry textures"
+   },
+   {
+     "text": "In a sunlit shop with neatly arranged shelves, a shopkeeper places a Cadbury Dairy Milk chocolate bar on the wooden counter. A young girl with curly hair, wearing a pink shirt and blue overalls, stands at the counter, likely making a purchase, while her colorful beaded bracelet is left behind on the smooth surface. The soft, nostalgic lighting and gentle focus highlight the innocence of the moment, emphasizing the small yet meaningful interaction between the shopkeeper and the child. The video’s warm, sentimental visual style draws attention to the chocolate bar as a symbol of kindness or reward, while subtly incorporating product branding throughout the scene. The combination of natural gestures, a friendly environment, and personal objects gives the video an emotional and relatable atmosphere. The overall mood is heartwarming, encouraging a sense of generosity and connection.",
+     "requires_scene_transition": false,
+     "neg_text": "blurry image, deformed limbs, incorrect colors, floating objects, disproportionate features, unrealistic lighting"
+   },
+   {
+     "text": "A young girl with curly hair, dressed in a pink shirt and denim overalls, stands at the counter of a store, her expression earnest as she interacts with an older male shopkeeper wearing glasses and a plaid shirt. The background shelves are stocked with various products, primarily Cadbury Dairy Milk chocolate bars and packages, establishing the setting as a small, cozy neighborhood shop. She gestures toward the shopkeeper, who regards her with mild curiosity and a hint of amusement. After a moment of deliberation, the shopkeeper picks up a large Cadbury Dairy Milk chocolate bar and holds it out, presenting it for her approval. The video is warmly lit with a soft, cinematic glow, highlighting the gentle, intimate atmosphere between the characters. The focus is on the subtle emotional cue of innocent desire and mutual understanding, with the brand prominently featured throughout the scene.",
+     "requires_scene_transition": true,
+     "neg_text": "blurry image, deformed limbs, incorrect colors, floating objects, disproportionate features, unrealistic lighting"
+   },
+   {
+     "text": "A warm, soft-focus video captures a child’s hand arranging small, colorful plastic toys and beads, including a miniature unicorn and pink butterfly, on a wooden tabletop in a gentle, sunlit environment. As the camera shifts to showcase the assembled collection of trinkets, a pair of adult hands slides a large, purple-wrapped Cadbury Dairy Milk chocolate bar across the table. The film’s color palette is muted and cozy, evoking comfort and nostalgia, while maintaining a childlike sense of wonder. The focus alternates between the objects and the hands to emphasize connection and sharing across generations. Brand logos appear subtly but frequently, reinforcing the chocolate’s presence as both a treat and a token of affection. The video’s pacing is unrushed and intimate, spotlighting small moments of discovery and giving.",
+     "requires_scene_transition": true,
+     "neg_text": "poor composition, missing details, distorted perspective, unnatural poses, incorrect shadows, blurry textures"
+   },
+   {
+     "text": "In a sunlit shop with neatly arranged shelves, a shopkeeper places a Cadbury Dairy Milk chocolate bar on the wooden counter. A young girl with curly hair, wearing a pink shirt and blue overalls, stands at the counter, likely making a purchase, while her colorful beaded bracelet is left behind on the smooth surface. The soft, nostalgic lighting and gentle focus highlight the innocence of the moment, emphasizing the small yet meaningful interaction between the shopkeeper and the child. The video’s warm, sentimental visual style draws attention to the chocolate bar as a symbol of kindness or reward, while subtly incorporating product branding throughout the scene. The combination of natural gestures, a friendly environment, and personal objects gives the video an emotional and relatable atmosphere. The overall mood is heartwarming, encouraging a sense of generosity and connection.",
+     "requires_scene_transition": false,
+     "neg_text": "blurry image, deformed limbs, incorrect colors, floating objects, disproportionate features, unrealistic lighting"
+   }
+ ],
+ [
+   {
+     "text": "In a softly lit bathroom, a man stands facing a mirror, dressed casually in a gray t-shirt. His reflection shows him focusing intently on his pocket, where he retrieves a small, sleek device. The background reveals a showerhead and a hanging towel, adding to the intimate, everyday setting. The man examines the device thoughtfully, creating an atmosphere of curiosity and contemplation. The camera captures his expression through the mirror, subtly emphasizing the introspective mood of the scene. The film style is minimalistic, allowing the viewer to engage with the quiet tension between the man and the object.",
+     "requires_scene_transition": false,
+     "neg_text": "blurry image, deformed limbs, incorrect colors, floating objects, disproportionate features, unrealistic lighting"
+   },
+   {
+     "text": "A man with a peculiar, shiny complexion stands before a mirror in a modest, well-lit bathroom. His expression is wide-eyed and smiling as he gazes at his own reflection, with the same details mirrored back at him. The bathroom features a light green color palette, a towel hanging in the background, and white tiled walls to the side. The man appears unnaturally smooth and uniform, as if sculpted from a single material, creating a surreal visual effect. The camera captures his back and profile, enhancing the focus on his unusual appearance. This video maintains a consistent and eerie tone, blending realism with a touch of the fantastical.",
+     "requires_scene_transition": false,
+     "neg_text": "incorrect physics, blurry motion, distorted perspective, anatomical errors, missing details, unrealistic shadows"
+   },
+   {
+     "text": "In a bustling park bathed in afternoon sunlight, a clay-like animated figure strolls energetically along a path lined with ornate lamp posts and greenery. The scene captures the character's quirky expressions and exaggerated movements as it interacts with passersby, who are clad in vibrant clothing. The setting conveys a lively urban environment with stone balustrades and lush trees providing a picturesque backdrop. The camera shifts to show the character sitting next to a woman in a pink dress on a decorative bench amid well-maintained bushes. Her calm demeanor contrasts with the character's animated excitement, adding a humorous touch. The atmosphere is lively and whimsical, blending everyday life with comedic animation.",
+     "requires_scene_transition": false,
+     "neg_text": "excessive darkness, poor contrast, missing details, incorrect lighting, anatomical errors, unnatural shadows"
+   }
+   ,
+   {
+     "text": "In a sunlit park, a woman in a light pink dress sits on a decorative metal bench, visibly upset and wiping tears with a tissue. Beside her, a man with an exaggerated cartoonish appearance expresses animated delight, speaking energetically. The lush greenery in the background adds to the serene setting despite the contrasting emotions. As the scene progresses, the man attempts to console the woman, gesturing animatedly with his hands. In a comedic twist, he removes a fake ear, revealing it to her as a distraction or joke, contrasting the initial mood with humor. The video captures a blend of heartfelt emotion and lighthearted comedy within a whimsical environment.",
+     "requires_scene_transition": false,
+     "neg_text": "excessive darkness, poor contrast, missing details, incorrect lighting, anatomical errors, unnatural shadows"
+   }
+   ,
+   {
+     "text": "A bronze statue's hand reaches out, offering a small sculpted ear to a woman dressed in soft pink, who accepts it with curiosity and a touch of humor. She smiles warmly, holding the ear as she exchanges a playful glance with the statue, suggesting a whimsical interaction. The scene shifts to a classic evening at a drive-in cinema, where cars are parked in rows beneath the night sky. Headlights illuminate the giant screen, playing a suspenseful scene of a shadow moving along a staircase. The atmosphere blends surreal art and nostalgic charm, with a hint of mystery hovering in the cinematic air.",
+     "requires_scene_transition": false,
+     "neg_text": "excessive darkness, poor contrast, missing details, incorrect lighting, anatomical errors, unnatural shadows"
+   },
+   {
+     "text": "In a dimly lit drive-in theater, cars are parked facing a large screen displaying a suspenseful scene with a shadowy figure ascending a staircase. A woman in a classic convertible watches intently, her face a blend of fear and anticipation, as she nervously holds a chocolate bar close to her mouth. Beside her, a mannequin-like figure with an exaggerated, cheerful expression contrasts sharply with her tense demeanor. The couple is enveloped in near darkness, illuminated subtly by the ambient glow from the screen. The setting in this nostalgic atmosphere is heightened by the flickering light, capturing the eerie yet captivating mood of the drive-in experience.",
+     "requires_scene_transition": false,
+     "neg_text": "excessive darkness, poor contrast, missing details, incorrect lighting, anatomical errors, unnatural shadows"
+   }
+ ]
+]

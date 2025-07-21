@@ -20,7 +20,7 @@ NUM_GPUS=4
 CHECKPOINT_WEIGHTS_DIR="/home/user/ttt-video-dit_v2/exp/06-01-ttt-video-3s-BS64-5000steps/checkpoint/"
 #CHECKPOINT_WEIGHTS_DIR="/home/user/ttt-video-dit_v1/CogVideoX-2b-sat/CogVideoX-5b_converted/"
 #CONFIG_FILE="./configs/train/ttt-mlp/3s-Copy1.toml"
-CONFIG_FILE="./configs/train/ttt-mlp/9s.toml"
+CONFIG_FILE="./configs/train/ttt-mlp/30s.toml"
 
 #EXP_NAME="${DATE}-ttt-video-3s-BS64-5000steps"
 EXP_NAME="06-01-ttt-video-3s-BS64-5000steps"

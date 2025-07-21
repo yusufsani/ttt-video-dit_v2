@@ -22,14 +22,18 @@ gradient_clipping_norm = 0.1
 global_batch_size = 64
 grad_accum_steps = 1
 warmup_steps = 50
-steps = 1000
+steps = 2000
 adapter_method = "qkvo"
-dataset_path = TODO
-jsonl_paths = TODO
+dataset_path = ""
+jsonl_paths = "/home/user/ttt_video_dataset/data/jsonl_entry/updated_18s.jsonl"
 
 [remat]
 transformer_checkpoint_layer_group_size = 1
 scan_checkpoint_group_size = 16
+forward_ssm=true
+reverse_ssm=true
+attention= true
+seq_modeling_block=true
 
 [parallelism]
 fsdp_unsharded_dtype = 'bfloat16'
@@ -38,7 +42,7 @@ dp_sharding = 8
 tp_sharding = 1
 
 [checkpoint]
-interval = 500
+interval = 100
 
 [wandb]
 project = "cogvideo_release"

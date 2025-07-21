@@ -123,8 +123,8 @@ def process_jsonl(model, tokenizer, input_jsonl_file, output_path, max_length, t
 def parse_args():
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(description='Process text embeddings for video data')
-    parser.add_argument('--video_length', type=int, default=3, help='Length of videos in seconds')
-    parser.add_argument('--max_length', type=int, default=498, help='Maximum sequence length')
+    parser.add_argument('--video_length', type=int, default=30, help='Length of videos in seconds')
+    parser.add_argument('--max_length', type=int, default=497, help='Maximum sequence length')
     parser.add_argument('--checkpoint_dir', type=str, required=True, help='Path to T5 checkpoint directory')
     parser.add_argument('--input_jsonl_file', type=str, required=True, help='Name of input JSONL file')
     parser.add_argument('--output_path', type=str, required=True, help='Base path for output embeddings')

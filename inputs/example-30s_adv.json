@@ -1,0 +1,54 @@
+[
+ [
+   {
+     "text": "In a softly lit bathroom, a man stands facing a mirror, dressed casually in a gray t-shirt. His reflection shows him focusing intently on his pocket, where he retrieves a small, sleek device. The background reveals a showerhead and a hanging towel, adding to the intimate, everyday setting. The man examines the device thoughtfully, creating an atmosphere of curiosity and contemplation. The camera captures his expression through the mirror, subtly emphasizing the introspective mood of the scene. The film style is minimalistic, allowing the viewer to engage with the quiet tension between the man and the object.",
+     "requires_scene_transition": true,
+     "neg_text": "blurry image, deformed limbs, incorrect colors, floating objects, disproportionate features, unrealistic lighting"
+   },
+   {
+     "text": "A man with a peculiar, shiny complexion stands before a mirror in a modest, well-lit bathroom. His expression is wide-eyed and smiling as he gazes at his own reflection, with the same details mirrored back at him. The bathroom features a light green color palette, a towel hanging in the background, and white tiled walls to the side. The man appears unnaturally smooth and uniform, as if sculpted from a single material, creating a surreal visual effect. The camera captures his back and profile, enhancing the focus on his unusual appearance. This video maintains a consistent and eerie tone, blending realism with a touch of the fantastical.",
+     "requires_scene_transition": true,
+     "neg_text": "poor composition, missing details, distorted perspective, unnatural poses, incorrect shadows, blurry textures"
+   },
+   {
+     "text": "In a bustling park bathed in afternoon sunlight, a clay-like animated figure strolls energetically along a path lined with ornate lamp posts and greenery. The scene captures the character's quirky expressions and exaggerated movements as it interacts with passersby, who are clad in vibrant clothing. The setting conveys a lively urban environment with stone balustrades and lush trees providing a picturesque backdrop. The camera shifts to show the character sitting next to a woman in a pink dress on a decorative bench amid well-maintained bushes. Her calm demeanor contrasts with the character's animated excitement, adding a humorous touch. The atmosphere is lively and whimsical, blending everyday life with comedic animation.",
+     "requires_scene_transition": false,
+     "neg_text": "blurry image, deformed limbs, incorrect colors, floating objects, disproportionate features, unrealistic lighting"
+   },
+   {
+     "text": "In a sunlit park, a woman in a light pink dress sits on a decorative metal bench, visibly upset and wiping tears with a tissue. Beside her, a man with an exaggerated cartoonish appearance expresses animated delight, speaking energetically. The lush greenery in the background adds to the serene setting despite the contrasting emotions. As the scene progresses, the man attempts to console the woman, gesturing animatedly with his hands. In a comedic twist, he removes a fake ear, revealing it to her as a distraction or joke, contrasting the initial mood with humor. The video captures a blend of heartfelt emotion and lighthearted comedy within a whimsical environment.",
+     "requires_scene_transition": true,
+     "neg_text": "blurry image, deformed limbs, incorrect colors, floating objects, disproportionate features, unrealistic lighting"
+   },
+   {
+     "text": "A bronze statue's hand reaches out, offering a small sculpted ear to a woman dressed in soft pink, who accepts it with curiosity and a touch of humor. She smiles warmly, holding the ear as she exchanges a playful glance with the statue, suggesting a whimsical interaction. The scene shifts to a classic evening at a drive-in cinema, where cars are parked in rows beneath the night sky. Headlights illuminate the giant screen, playing a suspenseful scene of a shadow moving along a staircase. The atmosphere blends surreal art and nostalgic charm, with a hint of mystery hovering in the cinematic air.",
+     "requires_scene_transition": true,
+     "neg_text": "poor composition, missing details, distorted perspective, unnatural poses, incorrect shadows, blurry textures"
+   },
+   {
+     "text": "In a dimly lit drive-in theater, cars are parked facing a large screen displaying a suspenseful scene with a shadowy figure ascending a staircase. A woman in a classic convertible watches intently, her face a blend of fear and anticipation, as she nervously holds a chocolate bar close to her mouth. Beside her, a mannequin-like figure with an exaggerated, cheerful expression contrasts sharply with her tense demeanor. The couple is enveloped in near darkness, illuminated subtly by the ambient glow from the screen. The setting in this nostalgic atmosphere is heightened by the flickering light, capturing the eerie yet captivating mood of the drive-in experience.",
+     "requires_scene_transition": false,
+     "neg_text": "blurry image, deformed limbs, incorrect colors, floating objects, disproportionate features, unrealistic lighting"
+   },
+   {
+     "text": "In a nighttime car setting, a woman looks surprised as she sits next to a man with a cheerful demeanor in a dimly lit environment. The scene transitions to a brightly lit clinic where chocolate sauce is elegantly poured over a scoop of ice cream held by a pair of hands. The sequence concludes in a hospital room, where three nurses, smiling and holding sundaes, gather around the man now revealed as a chocolate figure, who is connected to an IV drip of chocolate sauce. The style of the video blends humor and surrealism, offering an unexpected twist with playful elements centered around chocolate.",
+     "requires_scene_transition": false,
+     "neg_text": "blurry image, deformed limbs, incorrect colors, floating objects, disproportionate features, unrealistic lighting"
+   },
+   {
+     "text": "In a surreal and humorous setting, a person entirely made of chocolate is depicted interacting in various everyday scenarios. Initially, in a hospital room, nurses humorously approach with ice cream sundaes, amused by the chocolate figure who sits on a medical table connected to an IV. The scene transitions to a bustling gym where the chocolate character confidently walks among focused individuals lifting weights, showcasing a contrast between its unusual form and the athletic environment. The gym-goers appear intrigued and slightly amused by the unexpected sight, creating a playful atmosphere. The video’s style mixes comedy with an uncanny twist, emphasizing the whimsical concept of a chocolate person seamlessly blending into ordinary life activities. Lighting and composition highlight the absurdity and charm of the chocolate character against realistic settings.",
+     "requires_scene_transition": true,
+     "neg_text": "blurry image, deformed limbs, incorrect colors, floating objects, disproportionate features, unrealistic lighting"
+   },
+   {
+     "text": "In a bustling gym setting filled with active individuals, a woman in a light blue workout outfit performs sit-ups on a machine. A shirtless man with a toned physique is nearby, catching her attention as he reveals a fresh chocolate piece cleverly displayed like abdominal muscles. The gym atmosphere is lively with people exercising in the background, accentuating the comical contrast. The camera humorously zooms in on the woman's amused reaction as she gleefully accepts the chocolate, highlighting the playful interaction. The lighting is bright and dynamic, capturing the energetic and light-hearted mood of the moment. The scene embodies a blend of fitness enthusiasm with a whimsical twist.",
+     "requires_scene_transition": true,
+     "neg_text": "poor composition, missing details, distorted perspective, unnatural poses, incorrect shadows, blurry textures"
+   },
+   {
+     "text": "In a bright and bustling gym, people are engaged in various exercises, with a focus on joy and connection in their interactions. The scene shifts to a modern kitchen where a playful, clay-like character is happily cutting strawberries on a wooden countertop, closely accompanied by a smiling woman in a white tank top. The kitchen is warmly lit, with sleek cabinets, utensils, and fresh fruit decorating the space. The clay character’s exaggerated, expressive face shows excitement as the woman leans in, suggesting camaraderie and warmth. The atmosphere combines the energetic vibe of the gym with the cozy and humorous touch of the kitchen, highlighting themes of companionship and everyday joys.",
+     "requires_scene_transition": false,
+     "neg_text": "blurry image, deformed limbs, incorrect colors, floating objects, disproportionate features, unrealistic lighting"
+   }
+ ]
+]

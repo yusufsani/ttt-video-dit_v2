@@ -77,7 +77,7 @@ def get_vae(
 
 
 
-def resample_video_to_fps(video_path, target_fps=16, target_size=(640, 480), video_lenth=9):
+def resample_video_to_fps(video_path, target_fps=16, target_size=(640, 480), video_lenth=30):
     # Load video
     video_reader = imageio.get_reader(video_path, "ffmpeg")
     meta = video_reader.get_meta_data()
@@ -220,7 +220,7 @@ def precompute_episode(
 
         # encoded_frames for 13 frames for 3s clips 
         # encoded_frames for 37 frames for 9s clips
-        encoded_frames = F.interpolate(encoded_frames, size=(37, 60, 90), mode='trilinear', align_corners=False)  # interpolate time dim from 36 -> 37
+        encoded_frames = F.interpolate(encoded_frames, size=(121, 60, 90), mode='trilinear', align_corners=False)  # interpolate time dim from 36 -> 37
         print("encoded_frames shape. after========= ",encoded_frames.shape)
         # Save encoded frames
         for ef, save_path in zip(encoded_frames, batch_save_paths):
@@ -313,10 +313,10 @@ def main():
         device=f"cuda:{local_rank}"
     )
     assert vae.encoder_temporal_tiling_window == FPS*tiling_window_unit
-    #print("vae loaded-------------------")
+    print("vae loaded-------------------")
     # Process episodes
     episodes = sorted([d for d in os.listdir(episode_dir) if osp.isdir(osp.join(episode_dir, d)) and not episode_dir=='.ipynb_checkpoints'])
-    #print("episodes loaded-------------------",episodes)
+    print("episodes loaded-------------------",episodes)
     
     rank = dist.get_rank()
     world_size = dist.get_world_size()
