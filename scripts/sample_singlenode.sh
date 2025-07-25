@@ -17,12 +17,12 @@ fi
 #conda activate ttt-video
 
 export WANDB_API_KEY='OPTIONAL'
-NUM_GPUS=4
+NUM_GPUS=2
 
 CHECKPOINT_WEIGHTS_DIR="./exp/06-01-ttt-video-3s-BS64-5000steps/checkpoint/step-1750/"
-CONFIG_FILE="./configs/eval/ttt-mlp/30s.toml"
+CONFIG_FILE="./configs/eval/ttt-mlp/9s.toml"
 #INPUT_FILE="./inputs/my_ex-3s.json"
-INPUT_FILE="./inputs/example-30s_adv.json"
+INPUT_FILE="./inputs/example-9s_adv.json"
 
 torchrun --nproc_per_node="${NUM_GPUS}" \
 	--rdzv_backend c10d \

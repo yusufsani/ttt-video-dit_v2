@@ -6,14 +6,29 @@ from ttt.models.cogvideo.utils import DiscreteSampler, VideoScaling, append_dims
 
 
 class CogVideoX(nn.Module):
-    def __init__(self, config, effective_rank: int, effective_world_size: int):
+    def __init__(
+        self,
+        config,
+        effective_rank: int,
+        effective_world_size: int,
+        enable_teacache: bool ,
+        rel_l1_thresh: float ,
+        teacache_coefficients,
+        teacache_num_steps: int ,
+    ):
         super().__init__()
         self.config = config
 
         self.sigma_sampler = DiscreteSampler(config, effective_rank, effective_world_size)
         self.scaling = VideoScaling()
 
-        self.dit = DiffusionTransformer(config)
+        self.dit = DiffusionTransformer(
+            config,
+            enable_teacache=enable_teacache,
+            rel_l1_thresh=rel_l1_thresh,
+            coefficients=teacache_coefficients,
+            num_steps=teacache_num_steps,
+        )
 
         self.effective_rank = effective_rank
         self.tp_mesh = None

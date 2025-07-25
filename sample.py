@@ -150,6 +150,13 @@ class VideoGenerationRunner:
         self.device = "cuda"
 
         self.job_config = job_config
+        # --- Teacache config: set these as needed or expose via job_config ---
+        self.enable_teacache = getattr(job_config, "enable_teacache", False)
+        self.rel_l1_thresh = getattr(job_config, "rel_l1_thresh", 0.0004)
+        self.teacache_coefficients = getattr(job_config, "teacache_coefficients", [-1.53880483e+03,  8.43202495e+02, -1.34363087e+02,  7.97131516e+00, -5.23162339e-02])
+        self.teacache_num_steps = getattr(job_config, "teacache_num_steps", 50)
+        # ---------------------------------------------------------------
+
 
         init_distributed(job_config)
         self.effective_rank, self.effective_world_size = get_world_info(job_config)
@@ -157,9 +164,20 @@ class VideoGenerationRunner:
 
         self.tokenizer, self.t5_encoder = ModelLoader.load_t5_encoder(job_config, device=self.device)
         self.model = ModelLoader.load_cogvideox_model(
-            job_config, self.effective_rank, self.effective_world_size, self.device
+            job_config,
+            self.effective_rank,
+            self.effective_world_size,
+            self.device,
+            enable_teacache=self.enable_teacache,
+            rel_l1_thresh=self.rel_l1_thresh,
+            teacache_coefficients=self.teacache_coefficients,
+            teacache_num_steps=self.teacache_num_steps,
         )
+
+        
         self.vae_model = ModelLoader.load_vae_model(job_config, self.device)
+
+        
 
         self.use_wandb = not job_config.wandb.disable and torch.distributed.get_rank() == 0
 
@@ -172,6 +190,7 @@ class VideoGenerationRunner:
             device=self.device,
             use_wandb=self.use_wandb,
         )
+        
 
     def run(self):
         """Run the video generation pipeline."""
@@ -197,9 +216,13 @@ class VideoGenerationRunner:
                         "progress/remaining": len(per_rank_prompts) - i,
                     }
                 )
+            import time
 
+            start_time = time.time()
             # Generate video
             samples = self.video_generator.generate_video(pos_prompts, neg_prompts)
+            end_time = time.time()
+            print(f"**************Time taken: {end_time - start_time:.4f} seconds")
 
             # Save video if this rank is responsible for output
             if torch.distributed.get_rank() % self.job_config.parallelism.tp_sharding == 0:

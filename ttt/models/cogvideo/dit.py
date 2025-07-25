@@ -6,6 +6,7 @@ from einops import rearrange
 from torch import nn
 from torch.distributed.device_mesh import DeviceMesh
 from torch.distributed.tensor import Replicate, distribute_tensor
+import numpy as np
 
 from ttt.models.cogvideo.utils import (Rotary3DPositionEmbedding,
                                        SequenceMetadata, full_tensor, modulate,
@@ -422,6 +423,10 @@ class DiffusionTransformer(nn.Module):
     def __init__(
         self,
         config,
+        enable_teacache,
+        rel_l1_thresh,
+        coefficients,
+        num_steps,
     ):
         super().__init__()
         requires_grad = config.adapter_method == "sft"
@@ -448,6 +453,16 @@ class DiffusionTransformer(nn.Module):
             param.requires_grad = requires_grad
 
         self.final_layer = FinalLayer(config)
+        # --- Teacache additions ---
+        self.enable_teacache = enable_teacache
+        self.rel_l1_thresh = rel_l1_thresh
+        #self.coefficients = coefficients if coefficients is not None else [1.0]
+        self.coefficients = coefficients
+        self.num_steps = num_steps
+        self.cnt = 0
+        self.accumulated_rel_l1_distance = 0
+        self.previous_modulated_input = None
+        self.previous_residual = None
 
     def init_device_mesh(self, tp_mesh: DeviceMesh):
         self.tp_mesh = tp_mesh
@@ -465,6 +480,8 @@ class DiffusionTransformer(nn.Module):
 
         # Image patch / text embeddings
         text_emb, vid_emb = self.patch_embedding(video, text)
+        #print(f"video shape: {video.shape}, text shape: {text.shape}, timesteps shape: {timesteps.shape}")
+        #print(f"t_emb shape: {t_emb.shape},  vid_emb shape: {vid_emb.shape}")
 
         ## error initially used shape[0] instead of shape[1]
         num_chunks = text_emb.shape[1]
@@ -485,6 +502,33 @@ class DiffusionTransformer(nn.Module):
             seq_metadata.init_multiscene_offsets()
 
         text_emb = rearrange(text_emb, "b c s e -> b (c s) e")
+        #print(f"text_emb shape: {text_emb.shape}, vid_emb shape: {vid_emb.shape}")
+        #emb = t_emb  # Use t_emb as the modulated input for cache check
+
+        #print(f"enable_teacache: {self.enable_teacache}, rel_l1_thresh: {self.rel_l1_thresh}, coefficients: {self.coefficients}, num_steps: {self.num_steps}")
+        
+        #print(f"rel_l1_thresh: {self.rel_l1_thresh}, coefficients: {self.coefficients}, num_steps: {self.num_steps} --- enable_teacache: {self.enable_teacache}")
+        should_calc = True
+
+        if self.enable_teacache:
+            #print("enable_teacache =======" )
+            if self.cnt == 0 or self.cnt == self.num_steps - 1 or self.previous_modulated_input is None:
+                should_calc = True
+                self.accumulated_rel_l1_distance = 0
+            else:
+                rescale_func = np.poly1d(self.coefficients)
+                #print(f"rescale_func: {rescale_func}")
+                rel_l1 = ((t_emb - self.previous_modulated_input).abs().mean() / (self.previous_modulated_input.abs().mean() + 1e-8)).cpu().item()
+                self.accumulated_rel_l1_distance += rescale_func(rel_l1)
+                if self.accumulated_rel_l1_distance < self.rel_l1_thresh:
+                    should_calc = False
+                else:
+                    should_calc = True
+                    self.accumulated_rel_l1_distance = 0
+            self.previous_modulated_input = t_emb.detach()
+            self.cnt += 1
+            if self.cnt == self.num_steps:
+                self.cnt = 0
 
         def checkpointed_group_forward(
             i: int, vid_emb: torch.Tensor, text_emb: torch.Tensor, seq_metadata: SequenceMetadata
@@ -493,18 +537,25 @@ class DiffusionTransformer(nn.Module):
                 vid_emb, text_emb = layer(full_tensor(vid_emb), full_tensor(text_emb), seq_metadata)
                 
             return vid_emb, text_emb
+        
+        if self.enable_teacache and not should_calc and self.previous_residual is not None:
+            vid_emb = vid_emb + self.previous_residual
+        else:
+            ori_vid_emb = vid_emb.clone()
+            for i in range(0, len(self.layers), self.remat_transformer_layer_group_size):
+                if self.shard_transformer_inputs:
+                    assert self.tp_mesh is not None, "Sharding requires tensor parallel mesh to be set"
+                    vid_emb = shard_tensor(vid_emb, self.tp_mesh, dim=1)
+                    text_emb = shard_tensor(text_emb, self.tp_mesh, dim=1)
 
-        for i in range(0, len(self.layers), self.remat_transformer_layer_group_size):
-            if self.shard_transformer_inputs:
-                assert self.tp_mesh is not None, "Sharding requires tensor parallel mesh to be set"
-                vid_emb = shard_tensor(vid_emb, self.tp_mesh, dim=1)
-                text_emb = shard_tensor(text_emb, self.tp_mesh, dim=1)
+                vid_emb, text_emb = torch.utils.checkpoint.checkpoint(
+                    checkpointed_group_forward, i, vid_emb, text_emb, seq_metadata, use_reentrant=False
+                )
+            if self.enable_teacache:
+                self.previous_residual = vid_emb - ori_vid_emb
 
-               
-
-            vid_emb, text_emb = torch.utils.checkpoint.checkpoint(
-                checkpointed_group_forward, i, vid_emb, text_emb, seq_metadata, use_reentrant=False
-            )
-
+        
         vid_emb = self.transformer_norm(vid_emb)
         return self.final_layer(vid_emb, seq_metadata)
+    
+

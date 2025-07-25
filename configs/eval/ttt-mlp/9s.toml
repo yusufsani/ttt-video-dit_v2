@@ -1,5 +1,5 @@
 [job]
-exp_name = "cogvideo-mlp-9s_1400_tom"
+exp_name = "cogvideo-mlp-9s_1400_teacach_0.01"
 
 [model]
 name = "cogvideo"
@@ -22,6 +22,14 @@ num_denoising_steps = 50
 output_dir = "/home/user/ttt-video-dit_v2/output"
 t5_model_dir = "/home/user/ttt-video-dit_v1/CogVideoX-2b-sat/t5-v1_1-xxl/"
 vae_checkpoint_path = "/home/user/ttt-video-dit_v1/CogVideoX-2b-sat/vae/3d-vae.pt"
+enable_teacache=true
+rel_l1_thresh = 0.3
+teacache_num_steps =8
+teacache_coefficients =[-1.53880483e+03,  8.43202495e+02, -1.34363087e+02,  7.97131516e+00, -5.23162339e-02]
+
+
+
+
 
 [guider]
 scale = 6

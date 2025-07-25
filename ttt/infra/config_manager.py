@@ -85,6 +85,20 @@ class EvalConfig:
 
     txt_maxlen: int = field(default=498, metadata={"help": "Maximum token length for T5 input"})
     t5_model_dir: Optional[str] = field(default=None, metadata={"help": "Directory path to the T5 model"})
+    enable_teacache: bool = field(
+        default=True, metadata={"help": "Enable TEACache for text embeddings", "action": "store_true"}
+    )
+    rel_l1_thresh: float = field(
+        default=0.3, metadata={"help": "Relative L1 threshold for TEACache"}
+    )
+    teacache_num_steps: int = field(
+        default=8, metadata={"help": "Number of steps for TEACache to use", "choices": [8, 16, 32]}
+    )
+    teacache_coefficients: List[float] = field(
+        default_factory=lambda: [-1.53880483e+03, 8.43202495e+02, -1.34363087e+02, 7.97131516e+00, -5.23162339e-02],
+        metadata={"help": "Coefficients for TEACache, used to control the cache behavior"},
+    )
+   
 
 
 @dataclass

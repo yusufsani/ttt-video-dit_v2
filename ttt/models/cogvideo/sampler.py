@@ -102,7 +102,14 @@ class ModelLoader:
 
     @staticmethod
     def load_cogvideox_model(
-        job_config: JobConfig, effective_rank: int, effective_world_size: int, device: str
+        job_config: JobConfig,
+        effective_rank: int,
+        effective_world_size: int,
+        device: str,
+        enable_teacache: bool ,
+        rel_l1_thresh: float ,
+        teacache_coefficients,
+        teacache_num_steps: int ,
     ) -> CogVideoX:
         """
         Load and initialize the CogVideoX model.
@@ -113,8 +120,17 @@ class ModelLoader:
         model_config = ModelConfig.get_preset(job_config.model.size, job_config.model.video_length, job_config)
 
         with torch.device("meta"):
-            model = CogVideoX(model_config, effective_rank=effective_rank, effective_world_size=effective_world_size)
+            model = CogVideoX(
+                model_config,
+                effective_rank=effective_rank,
+                effective_world_size=effective_world_size,
+                enable_teacache=enable_teacache,
+                rel_l1_thresh=rel_l1_thresh,
+                teacache_coefficients=teacache_coefficients,
+                teacache_num_steps=teacache_num_steps,
+            )
 
+            
         # cogvideo trains with freqs buffers cast to model dtype
         cast_rotary_freqs(model, TORCH_DTYPE_MAP[job_config.parallelism.fsdp_unsharded_dtype])
 
@@ -134,7 +150,7 @@ class ModelLoader:
             dcp.load(state_dict=state_dict, checkpoint_id=job_config.checkpoint.init_state_dir)  # type: ignore
 
         set_model_state_dict(model, model_state_dict=state_dict, options=StateDictOptions(strict=True))
-
+        #model.forward = model.__class__teacache_forward
         model.eval()
         return model
 
